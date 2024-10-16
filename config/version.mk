@@ -8,12 +8,16 @@ CUSTOM_BUILD_DATE := $(CUSTOM_DATE_YEAR)$(CUSTOM_DATE_MONTH)$(CUSTOM_DATE_DAY)-$
 
 CUSTOM_PLATFORM_VERSION := 15.0
 
-# Guidelines for setting Styx Build ID:
-#  - TR1  = T Release 1
-#  - 33   = API Level 33
+# Guidelines for setting aosPB Build ID:
+#  - VR1  = V Release 1
+#  - 35   = API Level 35
 #  - OSR  = Open Source Release
+#  - DEV  = Dev Release
 #  - RF00 = Production Release 00
-CUSTOM_BUILD_ID := VR1.35.DEV.BETA01
+#  - BETA00 = BETA Release 00
+#  - JAN = Month placeholder
+
+CUSTOM_BUILD_ID := VR1.35.DEV.OCT.BETA01
 
 CUSTOM_VERSION := aosPB_$(CUSTOM_BUILD)-$(CUSTOM_PLATFORM_VERSION)-$(CUSTOM_BUILD_DATE)
 CUSTOM_VERSION_PROP := fifteen
