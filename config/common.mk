@@ -95,14 +95,14 @@ PRODUCT_PRODUCT_PROPERTIES += \
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.boot.vendor.overlay.theme=com.android.internal.systemui.navbar.gestural;com.google.android.systemui.gxoverlay
 
-# Updater
-ifeq ($(CUSTOM_BUILDTYPE),OFFICIAL)
-    PRODUCT_PACKAGES += \
-        Updater
-endif
+# # Updater
+# ifeq ($(CUSTOM_BUILDTYPE),OFFICIAL)
+#     PRODUCT_PACKAGES += \
+#         Updater
+# endif
 
-PRODUCT_COPY_FILES += \
-    vendor/aosp/prebuilt/common/etc/init/init.custom-updater.rc:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/init/init.custom-updater.rc
+# PRODUCT_COPY_FILES += \
+#     vendor/aosp/prebuilt/common/etc/init/init.custom-updater.rc:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/init/init.custom-updater.rc
 
 
 # Include font files
