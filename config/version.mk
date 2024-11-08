@@ -17,7 +17,7 @@ CUSTOM_VERSION := aosPB_$(CUSTOM_DISPLAY_VERSION)-$(CUSTOM_BUILD)-$(CUSTOM_PLATF
 CUSTOM_VERSION_PROP := fifteen
 
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
-    ro.custom.build.date=$(BUILD_DATE) \
+    ro.custom.build.date=$(CUSTOM_BUILD_DATE) \
     ro.custom.build.version=$(CUSTOM_DISPLAY_VERSION) \
     ro.custom.device=$(CUSTOM_BUILD) \
     ro.custom.fingerprint=$(ROM_FINGERPRINT) \
