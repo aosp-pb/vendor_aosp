@@ -41,7 +41,7 @@ datetime=`sed -n "$linenr"p < "$buildprop" | cut -d'=' -f2`
 filename="$3"
 id=`sha256sum "$2/$3" | cut -d' ' -f1`
 size=`stat -c "%s" "$2/$3"`
-version=`echo "$3" | cut -d'_' -f2 | cut -d'-' -f1`
+version=$(grep "ro.custom.build.version" "$buildprop" | cut -d'=' -f2)
 
 # Create JSON output
 echo '{
