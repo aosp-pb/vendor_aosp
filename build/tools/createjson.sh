@@ -41,7 +41,6 @@ datetime=`sed -n "$linenr"p < "$buildprop" | cut -d'=' -f2`
 filename="$3"
 id=`sha256sum "$2/$3" | cut -d' ' -f1`
 size=`stat -c "%s" "$2/$3"`
-version=$(grep "ro.custom.build.version" "$buildprop" | cut -d'=' -f2)
 
 # Create JSON output
 echo '{
@@ -53,7 +52,6 @@ echo '{
       "romtype": "'"$romtype"'",
       "size": '"$size"',
       "url": "https://sourceforge.net/projects/aospb-project/files/'"$1"'/'"$3"'/download",
-      "version": "'"$version"'"
     }
   ]
 }' >> "$output"
