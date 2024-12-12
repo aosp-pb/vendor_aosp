@@ -11,3 +11,10 @@ flag_value {
   state: DISABLED
   permission: READ_ONLY
 }
+
+flag_value {
+  package: "com.android.systemui"
+  name: "new_aod_transition"
+  state: DISABLED
+  permission: READ_ONLY
+}
