@@ -15,18 +15,26 @@ NC='\033[0m'
 echo "Building ROM for $DEVICE..."
 source build/envsetup.sh
 make installclean
-lunch aosp_$DEVICE-ap3a-userdebug
-make bacon -j$(nproc) 2>&1 | tee $LOG_FILE
+breakfast $DEVICE
+brunch $DEVICE 2>&1 | tee $LOG_FILE
 
-ZIP_FILE=$(find out/target/product/$DEVICE -name "*.zip" | head -n 1)
-RECOVERY_IMG=$(find out/target/product/$DEVICE -name "recovery.img" | head -n 1)
+OUT="$(pwd)/out/target/product/$DEVICE"
+
+ZIP_FILE=$(ls "$OUT"/aosPB_*.zip | head -n -1)
+RECOVERY_IMG=$(ls "$OUT"/*recovery.img | tail -n -1)
 
 if [[ -f "$ZIP_FILE" && -f "$RECOVERY_IMG" ]]; then
     echo -e "${GREEN}Build successful! Uploading files...${NC}"
-    ZIP_URL=$(curl --upload-file $ZIP_FILE https://transfer.sh/$(basename $ZIP_FILE))
-    RECOVERY_URL=$(curl --upload-file $RECOVERY_IMG https://transfer.sh/$(basename $RECOVERY_IMG))
+    
+    #Searching for servers in Go File
+    SERVER=$(curl -s https://api.gofile.io/servers | jq -r '.data.servers[0].name')
+    echo -e "Uploading ZIP file to the server: $SERVER"
+    
+    #Uploading the Zip & Recovery
+    ZIP_URL=$(curl -# -F "file=@$ZIP_FILE" "https://${SERVER}.gofile.io/uploadFile" | jq -r '.data|.downloadPage') 2>&1
+    RECOVERY_URL=$(curl -# -F "file=@$RECOVERY_IMG" "https://${SERVER}.gofile.io/uploadFile" | jq -r '.data|.downloadPage') 2>&1
 
-    echo -e "${GREEN}Build completed successfully.${NC}"
+    echo -e "${GREEN}Build uploaded successfully.${NC}"
     echo "ZIP URL: $ZIP_URL"
     echo "Recovery Image URL: $RECOVERY_URL"
 else
