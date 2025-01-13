@@ -11,6 +11,7 @@ DEVICE="$1"
 LOG_FILE="build/error.log"
 OUT="$(pwd)/out/target/product/$DEVICE"
 ROM_ZIP="$CUSTOM_TARGET_PACKAGE"
+RECOVERY_IMG=$(ls "$OUT"/*recovery.img | tail -n -1)
 
 GREEN='\033[1;32m'    
 RED='\033[0;31m'      
@@ -27,20 +28,15 @@ brunch $DEVICE 2>&1 | tee $LOG_FILE
 
 #Uploading the zip after a sucessful build or get the error log T_T
 
-ZIP_FILE=$(ls "$OUT"/aosPB_*.zip | head -n -1)
-RECOVERY_IMG=$(ls "$OUT"/*recovery.img | tail -n -1)
-
-if [[ -f "$ZIP_FILE" && -f "$RECOVERY_IMG" ]]; then
+if [[ -f "$ROM_ZIP" && -f "$RECOVERY_IMG" ]]; then
     echo -e "${GREEN}Build successful! Uploading files...${NC}"
     
-    #Searching for servers in Go File
-    SERVER=$(curl -s https://api.gofile.io/servers | jq -r '.data.servers[0].name')
-    echo -e "Uploading ZIP file to the server: $SERVER"
+    ZIP_URL=$(bash <(curl -sL https://raw.githubusercontent.com/Sushrut1101/GoFile-Upload/refs/heads/master/upload.sh) $ROM_ZIP)
+
     sleep 2
 
-    #Uploading the Zip & Recovery
-    ZIP_URL=$(curl -# -F "file=@$ROM_ZIP" "https://${SERVER}.gofile.io/uploadFile" | jq -r '.data|.downloadPage') 2>&1
-    RECOVERY_URL=$(curl -# -F "file=@$RECOVERY_IMG" "https://${SERVER}.gofile.io/uploadFile" | jq -r '.data|.downloadPage') 2>&1
+    RECOVERY_URL=$(bash <(curl -sL https://raw.githubusercontent.com/Sushrut1101/GoFile-Upload/refs/heads/master/upload.sh) $RECOVERY_IMG)
+    
     sleep 2
 
     echo -e "${GREEN}Build uploaded successfully.${NC}"
