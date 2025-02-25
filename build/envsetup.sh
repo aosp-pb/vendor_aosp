@@ -14,8 +14,8 @@ function check_product()
     $T/prebuilts/build-tools/linux-x86/bin/py3-cmd $T/vendor/aosp/build/tools/barista.py $product
     source_vendorsetup &>/dev/null
 
-    if (echo -n $1 | grep -q -e "^aosp_") ; then
-        CUSTOM_BUILD=$(echo -n $1 | sed -e 's/^aosp_//g')
+    if (echo -n $1 | grep -q -e "^aospb_") ; then
+        CUSTOM_BUILD=$(echo -n $1 | sed -e 's/^aospb_//g')
     else
         CUSTOM_BUILD=
     fi
@@ -61,7 +61,7 @@ function breakfast()
                 variant="user"
             fi
 
-            lunch aosp_$target-$aosp_target_release-$variant
+            lunch aospb_$target-$aosp_target_release-$variant
         fi
     fi
     return $?
